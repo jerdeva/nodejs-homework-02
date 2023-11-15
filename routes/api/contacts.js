@@ -1,25 +1,20 @@
-const express = require('express')
+const express = require("express");
 
-const router = express.Router()
+// const contacts = require("../../models/contacts.js");
+const contactController = require("../../controllers/contact-controller.js");
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// const { contactSchema } = require("../../untils/validation.js")
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const router = express.Router();
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/", contactController.getAllContacts);
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/:contactId", contactController.getContactsById);
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.post("/", contactController.postContact);
 
-module.exports = router
+router.delete("/:contactId", contactController.deleteContact);
+
+router.put("/:contactId", contactController.updateContact);
+
+module.exports = router;
