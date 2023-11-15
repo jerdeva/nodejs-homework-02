@@ -12,63 +12,84 @@ const getAllContacts = async (req, res, next) => {
   }
 };
 
-const getContactsById = async (req, res, next) => {
+const getContactsById = async (req, res) => {
   try {
     const { contactId } = req.params;
     const result = await contacts.getContactById(contactId);
     if (!result) {
-      console.log(404, "Not found");
+      const error = new Error("Not found");
+      error.status = 404;
+      throw error;
     }
     res.json(result);
   } catch (error) {
-    next(error);
+    const { status = 500, message = "Server error" } = error;
+    res.status(status).json({
+      message,
+    });
   }
 };
 
-const postContact = async (req, res, next) => {
+const postContact = async (req, res) => {
   try {
     const { error } = contactSchema.validate(req.body);
     if (error) {
-      console.log(400, "missing required name field");
+      const error = new Error("Missing required name field");
+      error.status = 400;
+      throw error;
     }
     const result = await contacts.addContact(req.body);
     res.status(201).json(result);
   } catch (error) {
-    next(error);
+    const { status = 500, message = "Server error" } = error;
+    res.status(status).json({
+      message,
+    });
   }
 };
 
-const deleteContact = async (req, res, next) => {
+const deleteContact = async (req, res) => {
   try {
     const { contactId } = req.params;
     const result = await contacts.removeContact(contactId);
     if (!result) {
-      console.log(404, "Not found");
+      const error = new Error("Not found");
+      error.status = 404;
+      throw error;
     }
     res.json({
       message: "contact deleted",
     });
   } catch (error) {
-    next(error);
+    const { status = 500, message = "Server error" } = error;
+    res.status(status).json({
+      message,
+    });
   }
 };
 
-
-const updateContact = async (req, res, next) => {
+const updateContact = async (req, res) => {
   try {
     const { error } = contactSchema.validate(req.body);
     if (error) {
-      console.log(400, "missing fields");
+      const error = new Error("Missing fields");
+      error.status = 400;
+      throw error;
     }
     const { contactId } = req.params;
 
     const result = await contacts.updateContact(contactId, req.body);
     if (!result) {
-      console.log(404, "Not found");
+      const error = new Error("Not found");
+      error.status = 404;
+      throw error;
     }
     res.json(result);
   } catch (error) {
-    next(error);
+    const { status = 500, message = "Server error" } = error;
+    res.status(status).json({
+      message,
+    });
   }
 };
 
