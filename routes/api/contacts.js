@@ -1,9 +1,5 @@
 const express = require("express");
-
-// const contacts = require("../../models/contacts.js");
 const contactController = require("../../controllers/contact-controller.js");
-
-// const { contactSchema } = require("../../untils/validation.js")
 
 const router = express.Router();
 
