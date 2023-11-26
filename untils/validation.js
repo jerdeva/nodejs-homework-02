@@ -1,18 +1,14 @@
 const Joi = require("joi");
 
 const contactSchema = Joi.object({
-  name: Joi.string().required().messages({
-    "any.required": `name must be exist`,
-    "string.base": `name must be text`,
-  }),
-  email: Joi.string().required().messages({
-    "any.required": `email must be exist`,
-    "string.base": `email must be text`,
-  }),
-  phone: Joi.string().required().messages({
-    "any.required": `phone must be exist`,
-    "string.base": `phone must be text`,
-  }),
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  phone: Joi.string().required(),
+  favorite: Joi.boolean().default(false),
 });
 
-module.exports = contactSchema;
+const contactFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
+module.exports = { contactSchema, contactFavoriteSchema };
