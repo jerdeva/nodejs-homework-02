@@ -31,7 +31,7 @@ const getContactsById = async (req, res, next) => {
   if (!result) {
     throw HttpError(
       404,
-      `OOps such contact with id - ${contactId} not found 😥`
+      `OOps such contact with id - ${contactId} not found `
     );
   }
   res.json(result);
@@ -51,7 +51,7 @@ const deleteContact = async (req, res, next) => {
   if (!result) {
     throw HttpError(
       404,
-      `OOps such contact with id - ${contactId} not found 😥`
+      `OOps such contact with id - ${contactId} not found `
     );
   }
 
@@ -69,7 +69,7 @@ const updateContact = async (req, res, next) => {
   if (!result) {
     throw HttpError(
       404,
-      `OOps such contact with id - ${contactId} not found 😥`
+      `OOps such contact with id - ${contactId} not found `
     );
   }
 
