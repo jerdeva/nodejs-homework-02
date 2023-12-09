@@ -3,9 +3,12 @@ const contactController = require("../../controllers/contact-controller.js");
 const { contactFavoriteSchema } = require("../../untils/validation.js");
 const { validateBody } = require("../../decorators/validateBody.js");
 const { contactSchema } = require("../../untils/validation.js");
-const { ctrlWrapper } = require("../../decorators/ctrlWrapper.js");
+// const { ctrlWrapper } = require("../../decorators/ctrlWrapper.js");
+const { authentication } = require("../../middelvares/authentication.js");
 
 const router = express.Router();
+
+router.use(authentication);
 
 router.get("/", contactController.getAllContacts);
 
@@ -14,20 +17,17 @@ router.get("/:id", contactController.getContactsById);
 router.post(
   "/",
   validateBody(contactSchema),
-  ctrlWrapper(contactController.postContact)
+  contactController.postContact
 );
 
-router.delete("/:contactId", contactController.deleteContact);
+router.delete("/:id", contactController.deleteContact);
 
-router.put(
-  "/:id",
-  ctrlWrapper(contactController.updateContact)
-);
+router.put("/:id", contactController.updateContact);
 
 router.patch(
   "/:id/favorite",
   validateBody(contactFavoriteSchema),
-  ctrlWrapper(contactController.updateContact)
+  contactController.updateContact
 );
 
 module.exports = router;

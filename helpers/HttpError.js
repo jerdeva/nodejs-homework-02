@@ -1,7 +1,7 @@
-function HttpError(status, message) {
-  const error = new Error(message);
-  error.status = status;
-  return error;
-}
+const HttpError = (status, message) => {
+  const err = new Error(message);
+  err.status = status;
+  return err;
+};
 
-module.exports = HttpError ;
+module.exports = { HttpError };
