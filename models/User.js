@@ -26,8 +26,11 @@ const userSchema = new Schema(
     token: {
       type: String,
     },
-  },
-  { versionKey: false, timestamps: true }
+    avatarURL: {
+      type: String,
+      required: [true, "set avatarURL"],
+    }
+  }, { versionKey: false, timestamps: true }
 );
 
 userSchema.post("save", handlerSaveError);
