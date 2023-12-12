@@ -5,7 +5,6 @@ const Joi = require("joi");
 const { handlerSaveError } = require("./hooks.js");
 const { handlePreUpdate } = require("./hooks.js");
 
-
 const userSchema = new Schema(
   {
     password: {
@@ -26,8 +25,9 @@ const userSchema = new Schema(
     token: {
       type: String,
     },
-    avatarURL:  String,
-    
+    avatarURL: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -46,7 +46,6 @@ const userSignupSchema = Joi.object({
     .messages({ "any.required": `"password" is a required field` }),
 });
 
-
 const userSigninSchema = Joi.object({
   email: Joi.string()
     .required()
@@ -62,9 +61,7 @@ const userUpdateSubcsription = Joi.object({
     .messages({ "any.required": `"subscription" is a required field` }),
 });
 
-
-const User = model("user", userSchema)
-
+const User = model("user", userSchema);
 
 module.exports = {
   User,

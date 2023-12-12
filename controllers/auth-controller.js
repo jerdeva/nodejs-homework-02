@@ -18,12 +18,12 @@ const signup = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw HttpError(409, "Such email is exist");
+    throw HttpError(409, "Such email is exists");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const avatarURL = gravatar.url(email);
+  const avatarURL = "http:" + gravatar.url(email);
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
@@ -98,18 +98,21 @@ const updateAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: oldPath, filename } = req.file;
   const newPath = path.join(avatarsPath, filename);
-  (await Jimp.read(oldPath)).resize(250, 250).write(oldPath);
+
+  const image = await Jimp.read(oldPath);
+  image.resize(250, 250).write(oldPath);
+
   await fs.rename(oldPath, newPath);
   const avatarURL = path.join("avatars", filename);
   await User.findByIdAndUpdate(_id, { avatarURL });
 
-  res.status(200).json({avatarURL})
-}
+  res.status(200).json({ avatarURL });
+};
 
 module.exports = {
   signup: ctrlWrapper(signup),
   login: ctrlWrapper(login),
   current: ctrlWrapper(current),
   logout: ctrlWrapper(logout),
-  updateAvatar:ctrlWrapper(updateAvatar),
+  updateAvatar: ctrlWrapper(updateAvatar),
 };

@@ -9,35 +9,35 @@ const { authentication } = require("../../middelvares/authentication.js");
 
 const { upload } = require("../../middelvares/upload.js");
 
-const authPouter = express.Router();
+const authRouter = express.Router();
 
-authPouter.post(
+authRouter.post(
   "/register",
   validateBody(userSignupSchema),
   authController.signup
 );
 
-authPouter.post("/login", validateBody(userSigninSchema), authController.login);
+authRouter.post("/login", validateBody(userSigninSchema), authController.login);
 
-authPouter.get(
+authRouter.get(
   "/current",
   validateBody(userSigninSchema),
   authentication,
   authController.current
 );
 
-authPouter.post(
+authRouter.post(
   "/logout",
   validateBody(userSigninSchema),
   authentication,
   authController.logout
 );
 
-authPouter.patch(
+authRouter.patch(
   "/avatars",
   authentication,
-  upload.single("avatarURL"),
+  upload.single("avatar"),
   authController.updateAvatar
 );
 
-module.exports = authPouter;
+module.exports = authRouter;
