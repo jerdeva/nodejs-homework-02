@@ -26,7 +26,6 @@ const fileFilter = (req, file, cb) => {
   if (extention === "exe") {
     return cb(HttpError(400, "Invalid file extention"));
   }
-
   cb(null, true);
 };
 
