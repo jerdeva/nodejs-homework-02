@@ -6,6 +6,7 @@ const { validateBody } = require("../../decorators/indexDecorators.js");
 const { userSignupSchema } = require("../../models/User.js");
 const { userSigninSchema } = require("../../models/User.js");
 const { authentication } = require("../../middelvares/authentication.js");
+
 const { upload } = require("../../middelvares/upload.js");
 
 const authPouter = express.Router();

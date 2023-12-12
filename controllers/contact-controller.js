@@ -5,6 +5,7 @@ const { Contact } = require("../models/Contact.js");
 const { ctrlWrapper } = require("../decorators/indexDecorators.js");
 
 const avatarsPath = path.resolve("public", "avatars");
+console.log(avatarsPath)
 
 const getAllContacts = async (req, res, next) => {
   const { _id: owner } = req.user;
@@ -38,19 +39,28 @@ const getContactsById = async (req, res, next) => {
   res.json(result);
 };
 
-const postContact = async (req, res, ) => {
+const postContact = async (req, res) => {
   const { _id: owner } = req.user;
+  console.log(req.file)
+  console.log(req.body);
+
+
   const { path: oldPath, filename } = req.file;
+
   const newPath = path.join(avatarsPath, filename);
+
+  console.log(oldPath)
+  console.log(newPath)
+
   await fs.rename(oldPath, newPath);
 
-  const avatar = path.join("avatars", filename);
+  const avatar = path.join("public", "avatars", filename);
   const result = await Contact.create({ ...req.body, avatar, owner });
 
   res.status(201).json(result);
 };
 
-const deleteContact = async (req, res, ) => {
+const deleteContact = async (req, res) => {
   const { contactId } = req.params;
   const { _id: owner } = req.user;
   const result = await Contact.findOneAndDelete({ _id: contactId, owner });
@@ -62,7 +72,7 @@ const deleteContact = async (req, res, ) => {
   res.status(200).json({ message: "contact was success deleted" });
 };
 
-const updateContact = async (req, res, ) => {
+const updateContact = async (req, res) => {
   const { contactId } = req.params;
   const { _id: owner } = req.user;
   const result = await Contact.findOneAndUpdate(

@@ -17,13 +17,13 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const signup = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  const avatarURL = gravatar.url(email);
-
   if (user) {
     throw HttpError(409, "Such email is exist");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
+
+  const avatarURL = gravatar.url(email);
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
@@ -34,6 +34,7 @@ const signup = async (req, res) => {
     user: {
       email: newUser.email,
       subscription: newUser.subscription,
+      avatarURL: newUser.avatarURL,
     },
   });
 };
@@ -68,16 +69,18 @@ const login = async (req, res) => {
     user: {
       email,
       subscription: user.subscription,
+      avatarURL: user.avatarURL,
     },
   });
 };
 
 const current = async (req, res) => {
-  const { email, subscription } = req.user;
+  const { email, subscription, avatarURL } = req.user;
 
   res.status(200).json({
     email,
     subscription,
+    avatarURL,
   });
 };
 
