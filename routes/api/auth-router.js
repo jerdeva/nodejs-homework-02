@@ -5,6 +5,7 @@ const authController = require("../../controllers/auth-controller.js");
 const { validateBody } = require("../../decorators/indexDecorators.js");
 const { userSignupSchema } = require("../../models/User.js");
 const { userSigninSchema } = require("../../models/User.js");
+const { userEmailSchema } = require("../../models/User.js");
 const { authentication } = require("../../middelvares/authentication.js");
 
 const { upload } = require("../../middelvares/upload.js");
@@ -18,6 +19,14 @@ authRouter.post(
 );
 
 authRouter.post("/login", validateBody(userSigninSchema), authController.login);
+
+authRouter.get("/verify/:verificationToken", authController.verify);
+
+authRouter.post(
+  "/verify",
+  validateBody(userEmailSchema),
+  authController.resendVerify
+);
 
 authRouter.get(
   "/current",

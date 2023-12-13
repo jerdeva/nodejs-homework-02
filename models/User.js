@@ -69,6 +69,10 @@ const userUpdateSubcsription = Joi.object({
     .messages({ "any.required": `"subscription" is a required field` }),
 });
 
+const userEmailSchema = Joi.object({
+  email: Joi.string().required(),
+});
+
 const User = model("user", userSchema);
 
 module.exports = {
@@ -76,4 +80,5 @@ module.exports = {
   userSigninSchema,
   userSignupSchema,
   userUpdateSubcsription,
+  userEmailSchema,
 };
